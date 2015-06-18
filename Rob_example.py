@@ -10,7 +10,7 @@ import time
 # Initialise the PWM device using the default address
 #pwm = PWM(0x40)
 # Note if you'd like more debug output you can instead run:
-pwm = PWM(0x41, debug=True)
+pwm = PWM(0x40, debug=True)
 
 # sg90: 500-2400 us
 # default 150 -600
