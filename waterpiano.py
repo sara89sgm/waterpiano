@@ -22,40 +22,54 @@ if len(sys.argv)>1:
 servoMin = 150  # Min pulse length out of 4096
 servoMax = 600  # Max pulse length out of 4096
 
+delay_hit = 0.07
 
 pwm.setPWMFreq(50) 
 
-#for x in range(0, 11):
-	#pwm1.setPWM(x, 0, init_point)
-	#print "Writing servo ", x
-	#time.sleep(0.5)
-
 for x in range(0, 11):
-        pwm.setPWM(x, 0, init_point)
-	print "Writing servo ", x
-	time.sleep(0.5)
-
-for x in range(0, 11):
+	pwm1.setPWM(x, 0, 270)
+        time.sleep(delay_hit)
+	pwm1.setPWM(x, 0, init_point)
+	time.sleep(delay_hit)
         pwm1.setPWM(x, 4096, 0)
-        time.sleep(0.05)
+        time.sleep(delay_hit)
 
 for x in range(0, 11):
-        pwm.setPWM(x,4096, 0)
-        time.sleep(0.05)
+	print "Reseting servo ", x
+        pwm.setPWM(x, 0, 270)
+	time.sleep(delay_hit)
+	pwm.setPWM(x, 0, init_point)
+	time.sleep(delay_hit)
+	pwm.setPWM(x, 4096, 0)
+
 
 print "Servos initialised"
 
+play_note = True
+
 def playGlassNote(note):
-	if(note>59):
-		servo_number = note-47
-		pwm.setPWM(servo_number,0, 270)
-		time.sleep(1)
-		pwm.setPWM(servo_number, 0, init_point)
-	else :
-		servo_number = note-59
-		pwm1.setPWM(servo_number, 0, 270) 
-		time.sleep(1)
-		pwm.setPWM(servo_number, 0, init_point)
+	global play_note
+	global delay_hit
+	if(play_note):
+		play_note = False
+		if(note>59):
+			servo_number = note-60
+			print "Note ", note
+			print "servo_number ", servo_number
+			pwm.setPWM(servo_number,0, 270)
+			time.sleep(delay_hit)
+			pwm.setPWM(servo_number, 0, init_point)
+			time.sleep(delay_hit)
+			pwm.setPWM(servo_number, 4096, 0)
+		else :
+			servo_number = note-48
+			pwm1.setPWM(servo_number, 0, 270) 
+			time.sleep(delay_hit)
+			pwm1.setPWM(servo_number, 0, init_point)
+			time.sleep(delay_hit)
+			pwm1.setPWM(x, 4096, 0)
+	else:
+		play_note = True
 #MIDI
 
 pygame.init()
