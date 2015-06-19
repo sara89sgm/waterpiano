@@ -24,24 +24,21 @@ servoMax = 600  # Max pulse length out of 4096
 
 delay_hit = 0.07
 
-pwm.setPWMFreq(50) 
+def resetServos (motor, freq):
+	global delay_hit
+	motor.setPWMFreq(freq) 
 
-for x in range(0, 11):
-	pwm1.setPWM(x, 0, 270)
-        time.sleep(delay_hit)
-	pwm1.setPWM(x, 0, init_point)
-	time.sleep(delay_hit)
-        pwm1.setPWM(x, 4096, 0)
-        time.sleep(delay_hit)
+	for x in range(0, 12):
+		print "Reseting servo ", x
+		motor.setPWM(x, 0, 270)
+        	time.sleep(delay_hit)
+		motor.setPWM(x, 0, init_point)
+		time.sleep(delay_hit)
+        	motor.setPWM(x, 4096, 0)
+        	time.sleep(delay_hit)
 
-for x in range(0, 11):
-	print "Reseting servo ", x
-        pwm.setPWM(x, 0, 270)
-	time.sleep(delay_hit)
-	pwm.setPWM(x, 0, init_point)
-	time.sleep(delay_hit)
-	pwm.setPWM(x, 4096, 0)
-
+resetServos(pwm1, 50)
+resetServos(pwm, 50)
 
 print "Servos initialised"
 
@@ -67,7 +64,7 @@ def playGlassNote(note):
 			time.sleep(delay_hit)
 			pwm1.setPWM(servo_number, 0, init_point)
 			time.sleep(delay_hit)
-			pwm1.setPWM(x, 4096, 0)
+			pwm1.setPWM(servo_number, 4096, 0)
 	else:
 		play_note = True
 #MIDI
